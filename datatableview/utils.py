@@ -237,7 +237,7 @@ class DatatableStructure(object):
 
         column_info = []
         if self.model:
-            model_fields = self.model._meta.get_all_field_names()
+            model_fields = self.model._meta.get_fields()
         else:
             model_fields = []
 
@@ -361,7 +361,7 @@ class DatatableOptions(UserDict):
                     is_local_field = False
                     if column.fields:
                         base_field_name = column.fields[0].split('__')[0]
-                        if base_field_name in self._model._meta.get_all_field_names():
+                        if base_field_name in self._model._meta.get_fields():
                             is_local_field = True
 
                     if not column.fields or len(column.fields) > 1 or not is_local_field:
@@ -459,7 +459,7 @@ def filter_real_fields(model, fields, key=None):
     field_hints = tuple(zip(map(key, fields), fields))
     field_map = dict(field_hints)
     field_list = set(field_map.keys())
-    concrete_names = set(model._meta.get_all_field_names())
+    concrete_names = set(model._meta.get_fields())
 
     # Do some math with sets
     concrete_fields = concrete_names.intersection(field_list)
